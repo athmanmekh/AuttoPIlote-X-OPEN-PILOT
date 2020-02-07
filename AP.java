@@ -1,7 +1,8 @@
-public abstract abcAP {
-  private MCapteurs[] capts;
+public class AP {
+    private Command cmd;
+    private MCapteurs[] capts;
 
-  public void init()
-  public Move compute();
+    public void init(Command c);
+    public Move compute();
 
 }
