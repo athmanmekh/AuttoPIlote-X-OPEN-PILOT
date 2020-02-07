@@ -21,7 +21,6 @@ Une fois la commande lue, l'autopilote agira de la manière suivante:
 2. L'autopilote calcule ensuite les commandes a executer (s'avancer, reculer, monter, descendre ...).
 3. L'autopilote depose ensuite les commandes, que la maquette doit executer, sur le bus.
 4. Si les conditions de la commande sont completee, alors l'autopilote repasse dans l'état d'attente initial.
-----
 
 #Implementation
 
@@ -37,7 +36,6 @@ Une fois la commande lue, l'autopilote agira de la manière suivante:
 * void getMSG()
 * void
 
-----
 ## class "AP" (AutoPilote)
 ### Attributes
 - class Capteur #1
@@ -48,7 +46,6 @@ Une fois la commande lue, l'autopilote agira de la manière suivante:
 * void computeMSG()
 * JSONObject createMSG()
 
-----
 ## class "Capteur"
 ### Attributes
 *Tout ces attributs sont des tableaux d'une taille fixée a la création des classes filles (plus de détails dans le segment "Capteurs")*
@@ -61,7 +58,6 @@ Une fois la commande lue, l'autopilote agira de la manière suivante:
 
 * void computeDifference()
 
-----
 #Capteurs
 Chaque classe capteur hérite de la classe "Capteur" composé de 3 champs :
 - data : groupement de données. Par exemple : la coordonée, l'altitude ou l'assiette
@@ -69,3 +65,4 @@ Chaque classe capteur hérite de la classe "Capteur" composé de 3 champs :
 - diff : encore les meme donnees mais celle-ci servent a savoir la difference (positive ou negative) entre data et target
 
 La taille de ces champs sera initialisé dependant le composant, comme vous pourrez le remarquer dans les classes du meme package. Ces classes capteurs seront invoques par la classe AP en fonction de la commande a execute.
+
