@@ -1,5 +1,5 @@
 # AutoPilote X OPEN PROJECT DRONE
-----
+
 
 #Overview
 L'Autopilote permet d'intègrer la communication avec la GCS (station sol), il permet de calculer la trajectoire (en continue même si le drone est stable) à partir des paquet provenant des capteurs (position actuel) et les paquets provenant du la GCS (destination).
@@ -26,7 +26,7 @@ Une fois la commande lue, l'autopilote agira de la manière suivante:
 
 *A chaque attribut sera associé un getter et setter*
 
-----
+
 ## class "APMessager"
 ### Attributes
 - class AP
