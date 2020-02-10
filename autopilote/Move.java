@@ -1,11 +1,11 @@
 public enum Move {
-  FORWARD (0),
-  BACKWARD (1),
-  LEFT (2),
-  RIGHT (3),
-  UP (4),
-  DOWN (5),
-  NONE (-1) ;
+  FORWARD ("FORWARD"),
+  BACKWARD ("BACKWARD"),
+  LEFT ("LEFT"),
+  RIGHT ("RIGHT"),
+  UP ("UP"),
+  DOWN ("DOWN"),
+  NONE ("NONE") ;
 
   private int cmd;
 
