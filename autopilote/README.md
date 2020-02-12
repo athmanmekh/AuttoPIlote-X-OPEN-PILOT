@@ -29,39 +29,48 @@ Une fois la commande lue, l'autopilote agira de la manière suivante:
 
 ## class "APMessager"
 ### Attributes
-    - class AP
+
+- class AP
 
 ### Methods
-    * JSONObject sendMSG()
-    * void getMSG()
-    * void
+
+* JSONObject sendMSG()
+* void getMSG()
+* void
 
 ## class "AP" (AutoPilote)
 ### Attributes
-    - class Capteur #1
-    - class Capteur #2
-    - class Capteur #3 ... (le nombre de capteurs nécessaire quoi)
+
+- class MCapteurs position
+- class MCapteurs contact *(distance a laquelle se situe l'obstacle, de tout les cotes)*
+- class MCapteurs Capteur#i  ... (le nombre de capteurs nécessaire quoi)
 
 ### Methods
-    * void computeMSG()
-    * JSONObject createMSG()
+
+* void computeMSG()
+* JSONObject createMSG()
 
 ## class "Capteur"
 ### Attributes
 *Tout ces attributs sont des tableaux d'une taille fixée a la création des classes filles (plus de détails dans le segment "Capteurs")*
-    - float[] data
-    - float[] target
-    - float[] diff
+
+- float[] data
+- float[] target
+- float[] diff
 
 ### Methods
 *avant d'utiliser ces fonctions il faut avoir remplis au moins le champs data et (target ou diff)*
 
-    * void computeDifference()
+* void computeDifference()
 
 #Capteurs
 Chaque classe capteur hérite de la classe "Capteur" composé de 3 champs :
+
 - data : groupement de données. Par exemple : la coordonée, l'altitude ou l'assiette
+
 - target  les meme donnees que pour la data, seulement ces valeurs sont celles que l'ont cherche a obtenir
-- diff : encore les meme donnees mais celle-ci servent a savoir la difference (positive ou negative) entre data et target
+
+- diff : encore les meme donnees mais celle-ci servent a savoir la difference (positive ou negative) entre data et
+target
 
 La taille de ces champs sera initialisé dependant le composant, comme vous pourrez le remarquer dans les classes du meme package. Ces classes capteurs seront invoques par la classe AP en fonction de la commande a execute.

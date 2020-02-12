@@ -1,4 +1,6 @@
-public abstract MCapteurs {
+package capteurs;
+
+public abstract class MCapteurs {
     private int length;
     private float[] data;
     private float[] target;
@@ -8,5 +10,5 @@ public abstract MCapteurs {
     // public float[] getTarget();
     // public float[] getDiff();
 
-    public void computeDiff();
+    public abstract void computeDiff();
 }

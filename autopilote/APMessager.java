@@ -1,47 +1,111 @@
 import java.io.IOException;
-// import java.io.DataOutputStream;
-// import java.io.DataInputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import java.io.DataOutputStream;
+import java.io.DataInputStream;
+// import java.io.ObjectInputStream;
+// import java.io.ObjectOutputStream;
 
 import java.util.Scanner;
+import java.util.ArrayList;
+
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
-public class Main {
-    public AP ap;
+import javax.json.Json;
+import javax.json.JsonReader;
+import javax.json.JsonObject;
+import org.json.JSONObject;
 
-    public void sendMSG();
-    public  void getMSG();
+public class APMessager {
+    private AP ap;
+    private JsonReaderFactory readFactory = Json.createReaderFactory();
 
-    public void UCLoop() {
+    // [{
+    //  "command" : string,
+    //  "position" : {
+    //    "x" : float/double,
+    //    "y" : float/double,
+    //    "z" : float/double
+    //  }
+    // }, ... ]
+    private ArrayList<JsonObject> commands = new ArrayList<JsonObject>();
+
+    // {
+    //  "position" : {"x" : float, "y" : float, "z" : float},
+    //  "contact" : {"f" : float, "b" : float, "l" : float, "r" : float}
+    // }
+    private JsonObject capteurs = null;
+
+    // {
+    //  "x" : 1 (forward) || -1 (backward) || 0 (none),
+    //  "y" : 1 (right) || -1 (left) || 0 (none)
+    //  "z" : -1 (down) || 1 (up) || 0 (none),
+    // }
+    private JsonObject instruction = null;
+
+    // send this.instruction to the bus;
+    private boolean sendBusMSG() throws IOException, UnknownHostException { return true; }
+
+    // fill up this.capteurs
+    private boolean getBusMSG() throws IOException, UnknownHostException { return true; }
+
+    private void UCLoop() throws IOException, UnknownHostException {
         Socket uc = new Socket("a definir", 7778);
-        ObjectOutputStream out = new ObjectOutputStream(uc.getOutputStream());
-        ObjectInputStream in = new ObjectInputStream(uc.getInputStream());
+        DataOutputStream out = new DataOutputStream(uc.getOutputStream());
+        DataInputStream in = new DataInputStream(uc.getInputStream());
 
         while(uc.isConnected()) {
-            JSONObject json = (JSONObject) in.readObject();
+            String s_json = in.readLine();
+            JsonReader jsonReader = this.readFactory.createReader(s_json);
+            JsonObject json = jsonReader.readObject();
+            jsonReader.close();
 
+            // on insere la commande en fonction de l'ID
+            this.commands.add(json);
         }
     }
 
-    public void
-
     public static void main(String[] args) throws IOException, UnknownHostException {
+        // open connection with UC
         Socket uc = new Socket("a definir", 7778);
-        ObjectOutputStream uc_out = new ObjectOutputStream(uc.getOutputStream());
-        ObjectInputStream uc_in = new ObjectInputStream(uc.getInputStream());
+        DataOutputStream uc_out = new DataOutputStream(uc.getOutputStream());
+        DataInputStream uc_in = new DataInputStream(uc.getInputStream());
 
+        // open connection with BUS
         Socket bus = new Socket("a definir", 7777);
-        ObjectOutputStream bus_out = new ObjectOutputStream(bus.getOutputStream());
-        ObjectInputStream bus_in = new ObjectInputStream(bus.getInputStream());
+        DataOutputStream bus_out = new DataOutputStream(bus.getOutputStream());
+        DataInputStream bus_in = new DataInputStream(bus.getInputStream());
 
         while (uc.isConnected()) {
-            JSONObject json = (JSONObject) uc_in.readObject();
+            this.UCLoop(); // inserting commands in queue
+
+            if (ap.getCommand() == Command.NONE) {
+                if (this.commands.size() > 0) { // take the first command in queue then init AP
+                    JsonObject command = this.commands.get(0);
+                    Command cmd = new Command(command.getString("command"));
+
+                    // init AP
+                    this.getBusMSG();
+                    ap.init(cmd, this.capteurs, command.getJsonObject("position"));
+                    ap.compute();
+                    this.instruction = ap.createInstruction();
+
+                    this.commands.remove(0);
+                }
+            } else { // AP is still processing instruction
+                ap.update(this.capteurs); // update Capteur
+                ap.compute();
+                this.instruction = ap.createInstruction();
+            }
+
+            if (this.instruction != null) { // send instruction on BUS then reset instruction
+                if (this.sendBusMSG()) this.instruction = null;
+            }
         }
 
-        // JSONObject json = (JSONObject) in.readObject();
+
+
+        // JsonObject json = (JsonObject) in.readObject();
 
         // On pourrait faire 2 threads, un pour l'uc l'autre pour le bus
         // On sera alors alerte pour les commandes que l'ont reçoit et la récupération des données des capteurs

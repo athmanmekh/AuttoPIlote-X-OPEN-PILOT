@@ -1,21 +1,26 @@
-public class Contact extends MCapteurs {
-    public Contact(float f, float b, float l, float r) {
-        this.length = 4;
-        this.data = new float[this.length];
-        this.target = new float[this.length];
+package capteurs;
 
-        // diff doit etre manipule comme un tableau de booleen
-        // si une valeur du tableau vaut 1 alors le drone est trop proche d'un obstacle
-        this.diff = new float[this.length];
-        for (int i=0; i < this.length; i++) this.diff[i] = 0;
+public class Contact extends Capteur {
+    // le tableau this.diff doit etre manipule comme un tableau de booleen
+    // si une valeur du tableau vaut 1 alors le drone est trop proche d'un obstacle, sinon la valeur est 0
+
+    public Contact() {
+        super(4);
+    }
+
+    public Contact(float f, float b, float l, float r) {
+        super(4);
 
         this.data[0] = f;
         this.data[1] = b;
         this.data[2] = l;
         this.data[3] = r;
 
-        float dist = 1.; // la distance minimum entre le drone et un obstacle
-        this.target
+        float dist = 1.; // la distance minimum a respecter entre le drone et un obstacle
+        this.target[0] = dist;
+        this.target[1] = dist;
+        this.target[2] = dist;
+        this.target[3] = dist;
     }
 
     public void setForward(float f) { this.data[0] = f; }
@@ -43,5 +48,10 @@ public class Contact extends MCapteurs {
     public float getDiffLeft() { return this.diff[2]; }
     public float getDiffRight() { return this.diff[3]; }
 
-    public void computeDiff() {}
+    public void computeDiff() {
+        for (int i=0; i < this.length; i++) {
+            this.diff[i] = (this.target[i] > this.data[i]) ? 1. : 0.;
+        }
+    }
+
 }
