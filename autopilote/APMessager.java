@@ -21,8 +21,9 @@ public class APMessager {
     private JsonReaderFactory readFactory = Json.createReaderFactory();
 
     // [{
+    //  "id" : int,
     //  "command" : string,
-    //  "position" : {
+    //  "metadata" : {
     //    "x" : float/double,
     //    "y" : float/double,
     //    "z" : float/double
