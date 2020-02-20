@@ -16,7 +16,7 @@ public class Contact extends Capteur {
         this.data[2] = l;
         this.data[3] = r;
 
-        float dist = 1.; // la distance minimum a respecter entre le drone et un obstacle
+        float dist = 1; // la distance minimum a respecter entre le drone et un obstacle
         this.target[0] = dist;
         this.target[1] = dist;
         this.target[2] = dist;
@@ -50,7 +50,7 @@ public class Contact extends Capteur {
 
     public void computeDiff() {
         for (int i=0; i < this.length; i++) {
-            this.diff[i] = (this.target[i] > this.data[i]) ? 1. : 0.;
+            //this.diff[i] = (this.target[i] > this.data[i]) ? 1. : 0.;
         }
     }
 

@@ -1,10 +1,10 @@
 package capteurs;
 
 public abstract class MCapteurs {
-    private int length;
-    private float[] data;
-    private float[] target;
-    private float[] diff;
+    protected int length;
+    protected float[] data;
+    protected float[] target;
+    protected float[] diff;
 
     // public float[] getData();
     // public float[] getTarget();

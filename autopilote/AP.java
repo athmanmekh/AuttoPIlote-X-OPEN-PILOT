@@ -37,9 +37,11 @@ public class AP {
                 break;
         }
     }
-
+	
+	// maj capteurs 
     public void update(JsonObject capteurs) {}
 
+	// calcule le tableau diff
     public void compute() {}
 
     public JsonObject createInstruction() {
