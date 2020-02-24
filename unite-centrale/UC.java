@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.net.UnknownHostException;
+import java.net.SocketException;
 
 import javax.json.Json;
 import javax.json.JsonReader;
@@ -21,6 +21,9 @@ public class UC {
     private static String status = "send";
 
     // {"id" : int,"command" : string,"metadata" : {"x" : float/double,"y" : float/double,"z" : float/double }}
+    // l'id permet de différencier l'ordre des commandes
+    // la command correspond a la commande a executer (enum Command)
+    // metadata les données associés permettant le bon fonctionnement de la commande
     public static JsonObject reformat(JsonObject obj) {
         String s_command = "";
         JsonObject meta = null;
@@ -52,39 +55,50 @@ public class UC {
     public static void main(String[] args) throws IOException {
         ServerSocket servSock = new ServerSocket(7778);
 
-        String who = null;
-        while (true) {
-            Socket socket = servSock.accept();
-            ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
-            ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
+        try {
 
-            if (who == null) who = in.readLine();
+            String who = null;
+            while (true) {
+                Socket socket = servSock.accept();
+                ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
+                ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
 
-            if (who == "GCS") {
-                JsonReader jsonReader = Json.createReader(new StringReader(in.readLine()));
-                JsonObject gcs = jsonReader.readObject();
-                jsonReader.close();
+                if (who == null) who = in.readLine();
 
-                commands.add(gcs);
-            }
+                if (who == "GCS") {
+                    JsonReader jsonReader = Json.createReader(new StringReader(in.readLine()));
+                    JsonObject gcs = jsonReader.readObject();
+                    jsonReader.close();
 
-            if (who == "AP") {
-                if (status == "send") {
-                    JsonObject cmd = commands.get(0);
-                    cmd = reformat(cmd);
+                    commands.add(gcs);
+                }
 
-                    out.writeChars(cmd.toString());
-                    status = "check";
+                if (who == "AP") {
+                    if (status == "send") {
+                        JsonObject cmd = commands.get(0);
+                        cmd = reformat(cmd);
 
-                } else if (status == "check") {
-                    String s = in.readLine();
-                    if (s == "ok") commands.remove(0);
+                        out.writeChars(cmd.toString());
+                        status = "check";
 
-                    status = "send";
+                    } else if (status == "check") {
+                        String s = in.readLine();
+                        if (s == "ok") commands.remove(0);
 
+                        status = "send";
+
+                    }
                 }
             }
+
+        } catch (SocketException e) {
+            System.out.println("SocketException : ");
+            System.out.println("\t" + e.getMessage());
+        } catch (IOException e) {
+            System.out.println("IOException : ");
+            System.out.println("\t" + e.getMessage());
         }
+
     }
 
 }
