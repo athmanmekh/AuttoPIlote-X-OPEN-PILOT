@@ -5,10 +5,12 @@ import javax.json.JsonReader;
 import javax.json.JsonObject;
 import org.json.JSONObject;
 
+import java.math.BigDecimal;
+
 public class AP {
     private Command cmd;
-    private MCapteurs contact;
-    private MCapteurs pos;
+    private Contact contact;
+    private Position pos;
 
     public AP() {
         this.cmd = Command.NONE;
@@ -21,7 +23,7 @@ public class AP {
     // if no metadata put null
     public void init(Command c, JsonObject capteurs, JsonObject metadata) {
         switch (c) {
-            case GOTO:
+            case GOTO: 
                 break;
             case FORWARD:
                 break;
@@ -39,7 +41,17 @@ public class AP {
     }
 	
 	// maj capteurs 
-    public void update(JsonObject capteurs) {}
+    public void update(JsonObject capteurs) {
+    	float x = BigDecimal.valueOf(capteurs.getDouble("x")).floatValue();
+    	float y = BigDecimal.valueOf(capteurs.getDouble("y")).floatValue();
+    	float z = BigDecimal.valueOf(capteurs.getDouble("z")).floatValue();
+    	
+    	this.pos.setX(x);
+    	this.pos.setY(y);
+    	this.pos.setZ(z);
+    	//comment faire la maj du contact ???
+    	
+    }
 
 	// calcule le tableau diff
     public void compute() {}
