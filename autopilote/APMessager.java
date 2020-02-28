@@ -23,8 +23,7 @@ import capteurs.Capteur;
 
 public class APMessager {
 	private static AP ap;
-	private static Capteur capteurs1;
-	private static JsonReaderFactory readFactory = Json.createReaderFactory((Map<String, ?>) capteurs1);
+	private static JsonReaderFactory readFactory = Json.createReaderFactory((Map<String, ?>));
 
 	// [{
 	// "id" : int,
@@ -48,11 +47,11 @@ public class APMessager {
 
 	// send this.instruction to the bus;
 	private static boolean sendBusMSG() throws IOException, UnknownHostException {
-		
+
 		boolean status = false;
-		
+
 		try {
-			
+
 			status = true;
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -63,11 +62,11 @@ public class APMessager {
 
 	// fill up this.capteurs
 	private static boolean getBusMSG() throws IOException, UnknownHostException {
-		
+
 		boolean status = false;
-		
+
 		try {
-			
+
 			status = true;
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -84,7 +83,7 @@ public class APMessager {
 		while (uc.isConnected()) {
 			//@SuppressWarnings("deprecation")
 			JsonReader s_json = Json.createReader(new StringReader(in.readLine()));
-			 
+
 			 JsonReader jsonReader = readFactory.createReader((Reader) s_json);
 			 JsonObject json = jsonReader.readObject();
 			 jsonReader.close();
