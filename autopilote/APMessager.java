@@ -43,11 +43,7 @@ public class APMessager {
 	// }
 	private static JsonObject capteurs = null;
 
-	// {
-	// "x" : 1 (forward) || -1 (backward) || 0 (none),
-	// "y" : 1 (right) || -1 (left) || 0 (none)
-	// "z" : -1 (down) || 1 (up) || 0 (none),
-	// }
+	
 	private static JsonObject instruction = null;
 
 	// send this.instruction to the bus;
