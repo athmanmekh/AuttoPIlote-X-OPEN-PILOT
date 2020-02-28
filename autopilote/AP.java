@@ -104,8 +104,8 @@ public class AP {
         case GOTO: 
         	JsonObject valueT = Json.createObjectBuilder()
             .add("xAxis", this.pos.getDiffX())
-            .add("yAxis", this.pos.getDiffX())
-            .add("zAxis", this.pos.getDiffX())
+            .add("yAxis", this.pos.getDiffY())
+            .add("zAxis", this.pos.getDiffZ())
             .build();
         	return valueT;
         	
