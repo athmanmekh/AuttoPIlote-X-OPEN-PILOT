@@ -32,7 +32,7 @@ public class UC {
         } else if (obj.getBoolean("buttonRightPressed")) {
             s_command = "RIGHT";
         } else if (obj.getBoolean("buttonTopPressed")) {
-            s_command = "FORAWARD";
+            s_command = "FORWARD";
         } else if (obj.getBoolean("buttonBotPressed")) {
             s_command = "BACKWARD";
         } else if (obj.getBoolean("isNewPosition")) {
@@ -52,7 +52,7 @@ public class UC {
         return res;
     }
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws SocketException, IOException {
         ServerSocket servSock = new ServerSocket(7778);
 
         try {
