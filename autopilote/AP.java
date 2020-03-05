@@ -165,5 +165,15 @@ public class AP {
                 .build();
     	return value;
     }
+    
+    /* APState nous informe sur l'état de l'AP, s'il est en état WAIT ou PAS WAIT
+    true = WAIT : entrain d'attendre une commande 
+    false = PAS WAIT : entrain d'éxécuter une commande*/
+    boolean APState() {
+    	if((this.pos.getDiffX()+this.pos.getDiffY()+this.pos.getDiffZ())>0)
+    			return false;
+    	return true;
+    	
+    }
 
 }

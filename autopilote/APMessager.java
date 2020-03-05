@@ -61,13 +61,22 @@ public class APMessager {
 	}
 
 	// fill up this.capteurs
-	private static boolean getBusMSG() throws IOException, UnknownHostException {
+	private static boolean getBusMSG( DataInputStream bus_in ) throws IOException, UnknownHostException {
 
 		boolean status = false;
 
 		try {
-
+			//@SuppressWarnings("deprecation")
+			JsonReader s_json = Json.createReader(new StringReader(bus_in.readLine()));
+			JsonReader jsonReader = readFactory.createReader((Reader) s_json);
+			JsonObject json = jsonReader.readObject();
+			
+			capteurs = json;	
+			json = jsonReader.readObject();
+			jsonReader.close();
+			
 			status = true;
+			
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
@@ -75,24 +84,43 @@ public class APMessager {
 		return status;
 	}
 
-	private static void UCLoop() throws IOException, UnknownHostException {
-		Socket uc = new Socket("a definir", 7778);
-		DataOutputStream out = new DataOutputStream(uc.getOutputStream());
-		DataInputStream in = new DataInputStream(uc.getInputStream());
-
-		while (uc.isConnected()) {
-			//@SuppressWarnings("deprecation")
-			JsonReader s_json = Json.createReader(new StringReader(in.readLine()));
-
-			 JsonReader jsonReader = readFactory.createReader((Reader) s_json);
-			 JsonObject json = jsonReader.readObject();
-			 jsonReader.close();
-
+	private static void UCLoop( DataInputStream uc_in ) throws IOException, UnknownHostException {
+		
+		//@SuppressWarnings("deprecation")
+		JsonReader s_json = Json.createReader(new StringReader(uc_in.readLine()));
+		JsonReader jsonReader = readFactory.createReader((Reader) s_json);
+		JsonObject json = jsonReader.readObject();
+		
+		while (json!=null) {
 			// on insere la commande en fonction de l'ID
-			// this.commands.add(json);
+			commands.add(json);	
+			json = jsonReader.readObject();
 		}
+		jsonReader.close();
+		
 	}
 
+	private static Command findEnumCmd (String cmd) {
+		switch(cmd){
+		case "GOTO":
+			return Command.GOTO;
+		case "FORWARD":
+			return Command.FORWARD;
+		case "BACKWARD":
+			return Command.BACKWARD;
+		case "LEFT":
+			return Command.LEFT;
+		case "RIGHT":
+			return Command.RIGHT;
+		case "UP":
+			return Command.UP;
+		case "DOWN":
+			return Command.DOWN;
+		case "NONE":
+			return Command.NONE;
+		}
+	}
+	
 	public static void main(String[] args)  throws IOException, UnknownHostException {
 		// open connection with UC
 		Socket uc = new Socket("a definir", 7778);
@@ -105,26 +133,36 @@ public class APMessager {
 		DataInputStream bus_in = new DataInputStream(bus.getInputStream());
 
         while (uc.isConnected()) {
-            UCLoop(); // inserting commands in queue
+            UCLoop(uc_in); // inserting commands in queue
 
             if (ap.getCommand() == Command.NONE) {
                 if (commands.size() > 0) { // take the first command in queue then init AP
-                    JsonObject command = commands.get(0);
-                    Command cmd = null;
-                    //= new Command(command.getString("command"));
+                    JsonObject command = commands.get(0);                    
+                    String com = command.getJsonString("command").getString();
+                    Command cmd = findEnumCmd (com);
+                    
 
                     // init AP
-                    getBusMSG();
-                    ap.init(cmd, capteurs, command.getJsonObject("position"));
-                    ap.compute();
-                    instruction = ap.createInstruction();
+                    if( getBusMSG(bus_in) ) {
+                    	ap.init(cmd, capteurs, command.getJsonObject("position"));
+                        ap.compute();
+                        instruction = ap.createInstruction();
+                    }else {
+                    	//todo
+                    }
+                    
 
                     commands.remove(0);
                 }
             } else { // AP is still processing instruction
-                ap.update(capteurs); // update Capteur
-                ap.compute();
-                instruction = ap.createInstruction();
+            	if( getBusMSG(bus_in) ) {
+            		ap.update(capteurs); // update Capteur
+                    ap.compute();
+                    instruction = ap.createInstruction();
+            	}else {
+            		//todo
+            	}
+                
             }
 
             if (instruction != null) { // send instruction on BUS then reset instruction
@@ -139,4 +177,5 @@ public class APMessager {
 		// des données des capteurs
 
 	}
+	
 }
