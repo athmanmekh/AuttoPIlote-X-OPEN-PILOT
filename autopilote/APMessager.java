@@ -23,7 +23,8 @@ import capteurs.Capteur;
 
 public class APMessager {
 	private static AP ap;
-	private static JsonReaderFactory readFactory = Json.createReaderFactory((Map<String, ?>));
+	private static Capteur capteurs1;
+	private static JsonReaderFactory readFactory = Json.createReaderFactory((Map<String, ?>) capteurs1);
 
 	// [{
 	// "id" : int,
