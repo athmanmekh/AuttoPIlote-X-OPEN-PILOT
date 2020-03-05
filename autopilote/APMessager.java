@@ -135,7 +135,7 @@ public class APMessager {
         while (uc.isConnected()) {
             UCLoop(uc_in); // inserting commands in queue
 
-            if (ap.getCommand() == Command.NONE) {
+            if ( ap.APState() /*ap.getCommand() == Command.NONE*/) {
                 if (commands.size() > 0) { // take the first command in queue then init AP
                     JsonObject command = commands.get(0);                    
                     String com = command.getJsonString("command").getString();
