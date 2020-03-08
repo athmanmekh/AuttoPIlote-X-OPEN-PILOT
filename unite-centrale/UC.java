@@ -56,39 +56,16 @@ public class UC {
         ServerSocket servSock = new ServerSocket(7778);
 
         try {
-
-            String who = null;
             while (true) {
                 Socket socket = servSock.accept();
-                ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
-                ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
+//                ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
+//                ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
 
-                if (who == null) who = in.readLine();
+                System.out.println("Connected to " + socket.getLocalAddress());
 
-                if (who == "GCS") {
-                    JsonReader jsonReader = Json.createReader(new StringReader(in.readLine()));
-                    JsonObject gcs = jsonReader.readObject();
-                    jsonReader.close();
+                UCThread thread = new UCThread(socket);
+                thread.start();
 
-                    commands.add(gcs);
-                }
-
-                if (who == "AP") {
-                    if (status == "send") {
-                        JsonObject cmd = commands.get(0);
-                        cmd = reformat(cmd);
-
-                        out.writeChars(cmd.toString());
-                        status = "check";
-
-                    } else if (status == "check") {
-                        String s = in.readLine();
-                        if (s == "ok") commands.remove(0);
-
-                        status = "send";
-
-                    }
-                }
             }
 
         } catch (SocketException e) {
@@ -97,6 +74,53 @@ public class UC {
         } catch (IOException e) {
             System.out.println("IOException : ");
             System.out.println("\t" + e.getMessage());
+        }
+
+    }
+
+    class UCThread extends Thread {
+        Socket sock;
+        String id;
+        String status;
+
+        ObjectOutputStream out;
+        ObjectInputStream in;
+
+        public UCThread(Socket s, String id) throws IOException {
+            this.sock = s;
+            this.out = new ObjectOutputStream(this.sock.getOutputStream());
+            this.in = new ObjectInputStream(this.sock.getInputStream());
+
+            this.id = id;
+            if (this.id == "AP") status = "send";
+
+        }
+
+        public void run() {
+            if (this.id == "GCS") {
+                JsonReader jsonReader = Json.createReader(new StringReader(in.readLine()));
+                JsonObject gcs = jsonReader.readObject();
+                jsonReader.close();
+
+                commands.add(gcs);
+            }
+
+            if (this.id == "AP") {
+                if (this.status == "send") {
+                    JsonObject cmd = commands.get(0);
+                    cmd = reformat(cmd);
+
+                    out.writeChars(cmd.toString());
+                    status = "check";
+
+                } else if (this.status == "check") {
+                    String s = in.readLine();
+                    if (s == "ok") commands.remove(0);
+
+                    this.status = "send";
+
+                }
+            }
         }
 
     }
