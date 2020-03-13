@@ -48,28 +48,6 @@ public class APMessager implements Runnable {
 	// }
 	private static JsonObject capteurs = null;
 
-	private static Command findEnumCmd (String cmd) {
-		switch(cmd){
-		case "GOTO":
-			return Command.GOTO;
-		case "FORWARD":
-			return Command.FORWARD;
-		case "BACKWARD":
-			return Command.BACKWARD;
-		case "LEFT":
-			return Command.LEFT;
-		case "RIGHT":
-			return Command.RIGHT;
-		case "UP":
-			return Command.UP;
-		case "DOWN":
-			return Command.DOWN;
-		case "NONE":
-			return Command.NONE;
-		}
-		return null;
-	}
-	
 	public static void main(String[] args)  throws IOException, UnknownHostException {
 		// open connection with UC
 		// Socket uc = new Socket("a definir", 7778);
