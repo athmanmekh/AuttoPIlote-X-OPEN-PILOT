@@ -24,8 +24,8 @@ import org.json.JSONObject;
 import capteurs.Capteur;
 
 public class APMessager implements Runnable {
-	private static PipedInputStream in;
-	private static PipedOutputStream out;
+	private static DataInputStream in;
+	private static DataOutputStream out;
 
 	private static AP ap;
 	// private static Capteur capteurs1;
@@ -47,84 +47,66 @@ public class APMessager implements Runnable {
 	// "contact" : {"f" : float, "b" : float, "l" : float, "r" : float}
 	// }
 	private static JsonObject capteurs = null;
+	
+	private static boolean sendBusMSG( JsonObject instruction, DataOutputStream bus_out ) throws IOException {
 
-	private static Command findEnumCmd (String cmd) {
-		switch(cmd){
-		case "GOTO":
-			return Command.GOTO;
-		case "FORWARD":
-			return Command.FORWARD;
-		case "BACKWARD":
-			return Command.BACKWARD;
-		case "LEFT":
-			return Command.LEFT;
-		case "RIGHT":
-			return Command.RIGHT;
-		case "UP":
-			return Command.UP;
-		case "DOWN":
-			return Command.DOWN;
-		case "NONE":
-			return Command.WAIT;
+		boolean status = false;
+
+		try {
+
+			
+			status = true;
+		} catch (IOException e) {
+			System.out.println(e.getMessage());
+			throw e; 
 		}
-		return null;
+
+		return status;
+	}
+
+	private static boolean getBusMSG( DataInputStream bus_in ) throws IOException {
+
+		boolean status = false;
+		
+		try {
+			status = true;
+		} catch (IOException e) {
+			System.out.println(e.getMessage());
+			throw e; 
+		}
+
+		return status;
 	}
 	
 	public static void main(String[] args)  throws IOException, UnknownHostException {
-		// open connection with UC
-		// Socket uc = new Socket("a definir", 7778);
-		// DataOutputStream uc_out = new DataOutputStream(uc.getOutputStream());
-		// DataInputStream uc_in = new DataInputStream(uc.getInputStream());
+		
+		
+		try {
+			Socket s = new Socket("a definir",7777);
+			in = new DataInputStream(s.getInputStream());
+			out = new DataOutputStream(s.getOutputStream());
+		}catch( UnknownHostException e ){
+			System.out.println(e.getMessage());
+		}
+		
+		try {
+			while(true /*s.isconnected()*/) {
+				/*
+				* On attend une commande ou on prend la commande suivante (dans la file)
+				* On recupere les donnees des capteurs (depuis le bus)
+				* On initialise l'AP
 
-		// open connection with BUS
-		// Socket bus = new Socket("a definir", 7777);
-		// DataOutputStream bus_out = new DataOutputStream(bus.getOutputStream());
-		// DataInputStream bus_in = new DataInputStream(bus.getInputStream());
+			    * AP est en train d'executer une commande :
+				* On recupere les donnees des capteurs (depuis le bus)
+				* On update l'AP
 
-        while (uc.isConnected()) {
-            UCLoop(uc_in); // inserting commands in queue
-
-            if (ap.getCommand() == Commande.WAIT) {
-                if (commands.size() > 0) { // take the first command in queue then init AP
-                    JsonObject command = commands.get(0);
-                    String str_command = command.getJsonString("command").getString();
-                    Command cmd = new Command(str_command);
-
-
-                    // init AP
-                    if( getBusMSG(bus_in) ) {
-                    	ap.init(cmd, capteurs, command.getJsonObject("position"));
-                        ap.compute();
-                        instruction = ap.createInstruction();
-                    }
-
-
-                    commands.remove(0);
-                }
-            } else { // AP is still processing instruction
-            	if (getBusMSG(bus_in)) {
-            		ap.update(capteurs); // update Capteur
-                    ap.compute();
-                    instruction = ap.createInstruction();
-            	} else {
-            		//todo
-            	}
-            }
-
-            if (instruction != null) { // send instruction on BUS then reset instruction
-                try{
-                	if (sendBusMSG(instruction, bus_out)) instruction = null;
-                }catch(IOException e) {
-                	System.out.println(e.getMessage());
-                }
-            }
-        }
-
-		// JsonObject json = (JsonObject) in.readObject();
-
-		// On pourrait faire 2 threads, un pour l'uc l'autre pour le bus
-		// On sera alors alerte pour les commandes que l'ont reçoit et la récupération
-		// des données des capteurs
-
+			    * Ensuite on cree l'instruction grâce a l'AP
+			    * On pose l'instruction sur le bus
+			    	*/
+			}
+		}catch( IOException e ) {
+			System.out.println(e.getMessage());
+		}
+		
 	}
 }
