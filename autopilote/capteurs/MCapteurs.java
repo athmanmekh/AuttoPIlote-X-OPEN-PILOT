@@ -6,9 +6,5 @@ public abstract class MCapteurs {
     protected float[] target;
     protected float[] diff;
 
-    // public float[] getData();
-    // public float[] getTarget();
-    // public float[] getDiff();
-
     public abstract void computeDiff();
 }

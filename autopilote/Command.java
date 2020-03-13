@@ -9,10 +9,11 @@ public enum Command {
     DOWN ("DOWN"),
     NONE ("NONE") ;
 
-    private String name;
+    private String name = "";
 
     Command(String s) { this.name = s; }
 
     public String getName() { return this.name; }
+    
 
 }
