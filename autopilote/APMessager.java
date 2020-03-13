@@ -65,7 +65,7 @@ public class APMessager implements Runnable {
 		case "DOWN":
 			return Command.DOWN;
 		case "NONE":
-			return Command.NONE;
+			return Command.WAIT;
 		}
 		return null;
 	}
@@ -84,7 +84,7 @@ public class APMessager implements Runnable {
         while (uc.isConnected()) {
             UCLoop(uc_in); // inserting commands in queue
 
-            if (ap.getCommand() == Commande.NONE) {
+            if (ap.getCommand() == Commande.WAIT) {
                 if (commands.size() > 0) { // take the first command in queue then init AP
                     JsonObject command = commands.get(0);
                     String str_command = command.getJsonString("command").getString();
