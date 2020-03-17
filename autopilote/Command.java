@@ -7,7 +7,7 @@ public enum Command {
     RIGHT ("RIGHT"),
     UP ("UP"),
     DOWN ("DOWN"),
-    NONE ("NONE") ;
+    WAIT ("WAIT") ;
 
     private String name = "";
 

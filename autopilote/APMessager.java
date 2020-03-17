@@ -46,6 +46,8 @@ public class APMessager {
 	// "contact" : {"f" : float, "b" : float, "l" : float, "r" : float}
 	// }
 	private static JsonObject capteurs = null;
+	
+	private static boolean sendBusMSG( JsonObject instruction, DataOutputStream bus_out ) throws IOException {
 
 	private static void sendBusMSG(JsonObject obj) throws IOException {
 		if (bus.isConnected()) {
@@ -132,6 +134,3 @@ public class APMessager {
 			System.out.println("Unknown Host: " + e.getMessage());
 		}
 
-
-	}
-}

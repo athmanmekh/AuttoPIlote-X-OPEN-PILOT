@@ -1,6 +1,6 @@
 package capteurs;
 
-public class Capteur extends MCapteurs {
+public class Capteur {
 	
 	public Capteur(int size) {
 		this.length = size;

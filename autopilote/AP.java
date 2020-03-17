@@ -16,7 +16,7 @@ public class AP {
     private float x, y, z; // the motors for each axis
 
     public AP() {
-        this.cmd = Command.NONE;
+        this.cmd = Command.WAIT;
         this.contact = new Contact();
         this.pos = new Position();
         this.def_x = 0;
@@ -141,7 +141,7 @@ public class AP {
                 this.z = -10;
                 break;
 
-            case NONE:
+            case WAIT:
                 this.x = this.def_x;
                 this.y = this.def_y;
                 this.z = this.def_z;
