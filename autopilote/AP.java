@@ -1,12 +1,6 @@
 import capteurs.*;
 
-import javax.json.Json;
-import javax.json.JsonReader;
-import javax.json.JsonObject;
-import javax.json.JsonValue;
 import org.json.JSONObject;
-
-import java.math.BigDecimal;
 
 public class AP {
     private Command cmd;
@@ -27,16 +21,19 @@ public class AP {
     public Command getCommand() { return this.cmd; } // if Command("NONE") is returned then the AP is WAITING for a command
 
     // if no metadata put null
-    public void init(Command c, JsonObject capteurs, JsonObject metadata) {
+    public void init(Command c, JSONObject capteurs, JSONObject metadata) {
         switch (c) {
             case GOTO:
                 this.cmd = Command.GOTO;
             	if (metadata != null) {
-            		float x = (float) metadata.getJsonNumber("x").doubleValue();
-            		float y = (float) metadata.getJsonNumber("y").doubleValue();
-            		float z = (float) metadata.getJsonNumber("z").doubleValue();
-                	this.pos.setTargetX(x);
-                	this.pos.setTargetY(y);
+                    float x = (float) metadata.getDouble("x");
+                    float y = (float) metadata.getDouble("y");
+                    float z = (float) metadata.getDouble("z");
+                    // float x = (float) metadata.getJsonNumber("x").doubleValue();
+                    // float y = (float) metadata.getJsonNumber("y").doubleValue();
+                    // float z = (float) metadata.getJsonNumber("z").doubleValue();
+                    this.pos.setTargetX(x);
+                    this.pos.setTargetY(y);
     	            this.pos.setTargetZ(z);
              	}
             	break;
@@ -69,28 +66,37 @@ public class AP {
     }
 
 	// maj capteurs
-    public void update(JsonObject capteurs) {
-    	JsonObject pos, contact;
-    	pos = capteurs.getJsonObject("position");
-    	contact = capteurs.getJsonObject("contact");
+    public void update(JSONObject capteurs) {
+        JSONObject pos, contact;
+        pos = capteurs.getJSONObject("position");
+        contact = capteurs.getJSONObject("contact");
 
-    	float x = (float) pos.getJsonNumber("x").doubleValue();
-    	float y = (float) pos.getJsonNumber("y").doubleValue();
-    	float z = (float) pos.getJsonNumber("z").doubleValue();
+        float x = (float) pos.getDouble("x");
+        float y = (float) pos.getDouble("y");
+        float z = (float) pos.getDouble("z");
 
-    	this.pos.setX(x);
-    	this.pos.setY(y);
-    	this.pos.setZ(z);
+        // float x = (float) pos.getJsonNumber("x").doubleValue();
+        // float y = (float) pos.getJsonNumber("y").doubleValue();
+        // float z = (float) pos.getJsonNumber("z").doubleValue();
 
-    	float f = (float) pos.getJsonNumber("f").doubleValue();
-    	float b = (float) pos.getJsonNumber("b").doubleValue();
-    	float l = (float) pos.getJsonNumber("l").doubleValue();
-    	float r = (float) pos.getJsonNumber("r").doubleValue();
+        this.pos.setX(x);
+        this.pos.setY(y);
+        this.pos.setZ(z);
 
-    	this.contact.setTargetForward(f);
-    	this.contact.setTargetBackward(b);
-    	this.contact.setTargetLeft(l);
-    	this.contact.setTargetRight(r);
+        float f = (float) contact.getDouble("f");
+        float b = (float) contact.getDouble("b");
+        float l = (float) contact.getDouble("l");
+        float r = (float) contact.getDouble("r");
+
+        // float f = (float) pos.getJsonNumber("f").doubleValue();
+        // float b = (float) pos.getJsonNumber("b").doubleValue();
+        // float l = (float) pos.getJsonNumber("l").doubleValue();
+        // float r = (float) pos.getJsonNumber("r").doubleValue();
+
+        this.contact.setForward(f);
+        this.contact.setBackward(b);
+        this.contact.setLeft(l);
+        this.contact.setRight(r);
     }
 
 	// calcule le tableau diff, ainsi que la puissance des moteurs
@@ -149,13 +155,12 @@ public class AP {
         }
     }
 
-    public JsonObject createInstruction() {
-        JsonObject value = Json.createObjectBuilder()
-            .add("xAxis", this.x)
-            .add("yAxis", this.y)
-            .add("zAxis", this.z)
-            .build();
-        return value;
+    public JSONObject createInstruction() {
+        JSONObject ins = new JSONObject();
+        ins.put("xAxis", this.x);
+        ins.put("yAxis", this.y);
+        ins.put("zAxis", this.z);
+        return ins;
     }
 
 }

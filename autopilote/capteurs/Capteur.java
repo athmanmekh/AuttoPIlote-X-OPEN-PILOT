@@ -1,7 +1,11 @@
 package capteurs;
 
 public class Capteur {
-	
+	private int length;
+	private float data[];
+	private float target[];
+	private float diff[];
+
 	public Capteur(int size) {
 		this.length = size;
 		this.data = new float[this.length];
@@ -15,25 +19,16 @@ public class Capteur {
 		}
 	}
 
-	public void setData(int i, float x) {
-		this.data[i] = x;
-	}
+	public int size() { return this.length; }
 
-	public void setTarget(int i, float x) {
-		this.target[i] = x;
-	}
+	public void setData(int i, float x) { this.data[i] = x; }
+	public float getData(int i) { return this.data[i]; }
 
-	public float getData(int i) {
-		return this.data[i];
-	}
+	public void setTarget(int i, float x) { this.target[i] = x; }
+	public float getTarget(int i) { return this.target[i]; }
 
-	public float getTarget(int i) {
-		return this.target[i];
-	}
-
-	public float getDiff(int i) {
-		return this.diff[i];
-	}
+	public void setDiff(int i, float v) { this.diff[i] = v; }
+	public float getDiff(int i) { return this.diff[i]; }
 
 	public void computeDiff() {
 		for (int i = 0; i < this.length; i++)
