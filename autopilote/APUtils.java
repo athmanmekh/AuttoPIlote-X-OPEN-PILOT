@@ -19,7 +19,13 @@ public class APUtils {
     // "position" : {"x" : float, "y" : float, "z" : float},
     // "contact" : {"f" : float, "b" : float, "l" : float, "r" : float}
     // }
-    private static JSONObject capteurs = null;
+    private static JSONObject capteurs;
+
+    public APUtils() {
+        // * initialize with empty atributes
+        commands = new ArrayList<JSONObject>();
+        capteurs = null;
+    }
 
     private static JSONObject reformatCommand(JSONObject command) {
         JSONObject reformat = new JSONObject();
@@ -64,6 +70,7 @@ public class APUtils {
             commands.remove(0);
         } else {
             res = new JSONObject();
+            res.put("id", -1);
             res.put("command", "WAIT");
             res.put("metadata", new JSONObject("{}"));
         }
@@ -74,6 +81,8 @@ public class APUtils {
 
     // reformatte les donnees des capteurs recu, stockant le resultat dans l'attribut capteurs
     public static void fillCapteurs(JSONObject sensors) {
+        if (sensors == null) capteurs = null;
+
         JSONObject pos = capteurs.getJSONObject("position");
         JSONObject new_pos = sensors.getJSONObject("position");
 
