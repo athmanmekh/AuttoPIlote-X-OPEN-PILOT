@@ -29,9 +29,6 @@ public class AP {
                     float x = (float) metadata.getDouble("x");
                     float y = (float) metadata.getDouble("y");
                     float z = (float) metadata.getDouble("z");
-                    // float x = (float) metadata.getJsonNumber("x").doubleValue();
-                    // float y = (float) metadata.getJsonNumber("y").doubleValue();
-                    // float z = (float) metadata.getJsonNumber("z").doubleValue();
                     this.pos.setTargetX(x);
                     this.pos.setTargetY(y);
     	            this.pos.setTargetZ(z);
@@ -65,8 +62,15 @@ public class AP {
         this.update(capteurs);
     }
 
-	// maj capteurs
+    // Mise a jour des données des capteurs
     public void update(JSONObject capteurs) {
+        // Si aucune donnée n'as pu être receptionnée ou n'as été envoyée,
+        // le drone repart dans un état d'attente en restant sur place
+        if (capteurs == null) {
+            this.cmd = Command.WAIT;
+            return;
+        }
+
         JSONObject pos, contact;
         pos = capteurs.getJSONObject("position");
         contact = capteurs.getJSONObject("contact");
@@ -74,10 +78,6 @@ public class AP {
         float x = (float) pos.getDouble("x");
         float y = (float) pos.getDouble("y");
         float z = (float) pos.getDouble("z");
-
-        // float x = (float) pos.getJsonNumber("x").doubleValue();
-        // float y = (float) pos.getJsonNumber("y").doubleValue();
-        // float z = (float) pos.getJsonNumber("z").doubleValue();
 
         this.pos.setX(x);
         this.pos.setY(y);
@@ -87,11 +87,6 @@ public class AP {
         float b = (float) contact.getDouble("b");
         float l = (float) contact.getDouble("l");
         float r = (float) contact.getDouble("r");
-
-        // float f = (float) pos.getJsonNumber("f").doubleValue();
-        // float b = (float) pos.getJsonNumber("b").doubleValue();
-        // float l = (float) pos.getJsonNumber("l").doubleValue();
-        // float r = (float) pos.getJsonNumber("r").doubleValue();
 
         this.contact.setForward(f);
         this.contact.setBackward(b);
