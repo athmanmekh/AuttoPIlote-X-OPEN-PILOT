@@ -1,22 +1,12 @@
 import java.io.IOException;
-// import java.io.Reader;
-// import java.io.StringReader;
 import java.io.DataOutputStream;
 import java.io.DataInputStream;
-// import java.io.ObjectInputStream;
-// import java.io.ObjectOutputStream;
 
-import java.util.Scanner;
-import java.util.ArrayList;
-import java.util.Map;
-import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
 import org.json.JSONObject;
 import org.json.JSONArray;
-
-import capteurs.Capteur;
 
 public class APMessager extends APUtils {
 	private static Socket bus;
@@ -58,6 +48,7 @@ public class APMessager extends APUtils {
 		return null;
 	}
 
+	@SuppressWarnings("deprecation")
 	public static void main(String[] args) throws IOException, UnknownHostException {
 		ap = new AP();
 		try {
@@ -73,9 +64,10 @@ public class APMessager extends APUtils {
 		try {
 			JSONObject id = new JSONObject();
 			id.put("Type", "autopilote");
-			id.put("TTL", "0");
+			id.put("TTL", 0);
 			System.out.println("IDENTIFICATION: " + id.toString());
 			bus_out.writeBytes(id.toString() + '\n');
+			bus_in.readLine(); // {"IdType" : int}, unnecessary for the moment, may be deleted l8er
 
 			while (bus.isConnected()) {
 				System.out.println("\nBUS IS CONNECTED");
@@ -88,8 +80,8 @@ public class APMessager extends APUtils {
 					fillCommands(uc_commands);
 
 					// * On recupere les donnees des capteurs (depuis le bus)
-					JSONObject new_capteurs = getBusMSG("CAPTEURS").getJSONObject(0); //parce qu'on recoit un JSONArray
-					fillCapteurs(new_capteurs);
+					JSONArray new_capteurs = getBusMSG("CAPTEURS");
+					if (new_capteurs.length() > 0) fillCapteurs(new_capteurs.getJSONObject(0));
 
 					// * On recupere la premiere commande de la liste
 					JSONObject cmd_obj = getNextCommand();
@@ -101,8 +93,8 @@ public class APMessager extends APUtils {
 
 				} else {
 					// * On recupere les donnees des capteurs (depuis le bus)
-					JSONObject new_capteurs = getBusMSG("CAPTEURS").getJSONObject(0); //parce qu'on recoit un JSONArray
-					fillCapteurs(new_capteurs);
+					JSONArray new_capteurs = getBusMSG("CAPTEURS");
+					if (new_capteurs.length() > 0) fillCapteurs(new_capteurs.getJSONObject(0));
 
 					// * On update l'AP
 					ap.update(getCapteurs());
