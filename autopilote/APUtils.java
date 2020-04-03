@@ -110,29 +110,40 @@ public class APUtils {
                 res = Command.GOTO;
                 break;
 
-            case "FORWARD":
-                res = Command.FORWARD;
+            case "LAND":
+                res = Command.LAND;
                 break;
 
-            case "BACKWARD":
-                res = Command.BACKWARD;
+            case "TAKEOFF":
+                res = Command.TAKEOFF;
                 break;
 
-            case "LEFT":
-                res = Command.LEFT;
+            case "JOYSTICK":
+                res = Command.JOYSTICK;
                 break;
-
-            case "RIGHT":
-                res = Command.RIGHT;
-                break;
-
-            case "UP":
-                res = Command.UP;
-                break;
-
-            case "DOWN":
-                res = Command.DOWN;
-                break;
+            // case "FORWARD":
+            //     res = Command.FORWARD;
+            //     break;
+            //
+            // case "BACKWARD":
+            //     res = Command.BACKWARD;
+            //     break;
+            //
+            // case "LEFT":
+            //     res = Command.LEFT;
+            //     break;
+            //
+            // case "RIGHT":
+            //     res = Command.RIGHT;
+            //     break;
+            //
+            // case "UP":
+            //     res = Command.UP;
+            //     break;
+            //
+            // case "DOWN":
+            //     res = Command.DOWN;
+            //     break;
 
             default:
                 res = Command.WAIT;

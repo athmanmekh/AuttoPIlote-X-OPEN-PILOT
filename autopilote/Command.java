@@ -1,12 +1,17 @@
 public enum Command {
 
-    GOTO ("GOTO"),
-    FORWARD ("FORWARD"),
-    BACKWARD ("BACKWARD"),
-    LEFT ("LEFT"),
-    RIGHT ("RIGHT"),
-    UP ("UP"),
-    DOWN ("DOWN"),
+    JOYSTICK ("JOYSTICK"), // {'x': float, 'y': float, 'z': float}
+    GOTO ("GOTO"), // {'x': float, 'y': float, 'z': float}
+
+    LAND ("LAND"),
+    TAKEOFF ("TAKEOFF"),
+
+    // FORWARD ("FORWARD"),
+    // BACKWARD ("BACKWARD"),
+    // LEFT ("LEFT"),
+    // RIGHT ("RIGHT"),
+    // UP ("UP"),
+    // DOWN ("DOWN"),
     WAIT ("WAIT") ;
 
     private String name = "";
