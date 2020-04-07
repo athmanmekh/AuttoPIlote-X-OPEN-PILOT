@@ -22,44 +22,51 @@ public class AP {
 
     // if no metadata put null
     public void init(Command c, JSONObject capteurs, JSONObject metadata) {
+        this.update(capteurs);
         switch (c) {
             case GOTO:
-                this.cmd = Command.GOTO;
-            	if (metadata != null) {
-                    float x = (float) metadata.getDouble("x");
-                    float y = (float) metadata.getDouble("y");
-                    float z = (float) metadata.getDouble("z");
-                    this.pos.setTargetX(x);
-                    this.pos.setTargetY(y);
-    	            this.pos.setTargetZ(z);
-             	}
-            	break;
-
-            case FORWARD:
-            	this.cmd = Command.FORWARD;
+                if (metadata == null) {
+                    c = Command.WAIT;
+                    break;
+                }
+                float x = (float) metadata.getDouble("x");
+                float y = (float) metadata.getDouble("y");
+                float z = (float) metadata.getDouble("z");
+                this.pos.setTargetX(x);
+                this.pos.setTargetY(y);
+                this.pos.setTargetZ(z);
                 break;
 
-            case BACKWARD:
-            	this.cmd = Command.BACKWARD;
+            case JOYSTICK:
+                if (metadata == null) {
+                    c = Command.WAIT;
+                    break;
+                }
+                this.def_x = (float) metadata.getDouble("x");
+                this.def_y = (float) metadata.getDouble("y");
+                this.def_z = (float) metadata.getDouble("z");
                 break;
 
-            case LEFT:
-            	this.cmd = Command.LEFT;
-            	break;
-
-            case RIGHT:
-            	this.cmd = Command.RIGHT;
+            case LAND:
+                this.pos.setTargetX(this.pos.getX());
+                this.pos.setTargetY(this.pos.getY());
+                this.pos.setTargetZ(0);
                 break;
 
-            case UP:
-            	this.cmd = Command.UP;
+            case TAKEOFF:
+                this.pos.setTargetX(this.pos.getX());
+                this.pos.setTargetY(this.pos.getY());
+                this.pos.setTargetZ(10);
                 break;
 
-            case DOWN:
-            	this.cmd = Command.DOWN;
+            default:
+                this.def_x = 0;
+                this.def_y = 0;
+                this.def_z = 0;
                 break;
         }
-        this.update(capteurs);
+
+        this.cmd = c;
     }
 
     // Mise a jour des données des capteurs
@@ -104,42 +111,26 @@ public class AP {
                 this.x = this.pos.getDiffX();
                 this.y = this.pos.getDiffY();
                 this.z = this.pos.getDiffZ();
+
+                if (this.pos.targetedPosition()) this.cmd = Command.WAIT;
                 break;
 
-            case FORWARD:
-                this.x = 10;
-                this.y = this.def_y;
-                this.z = this.def_z;
+            case LAND:
+                this.x = 0;
+                this.y = 0;
+                this.z = 1;
+
+                //check land achieved
+                if (this.pos.targetedPosition()) this.cmd = Command.WAIT;
                 break;
 
-            case BACKWARD:
-                this.x = -10;
-                this.y = this.def_y;
-                this.z = this.def_z;
-                break;
+            case TAKEOFF:
+                this.x = 0;
+                this.y = 0;
+                this.z = -1;
 
-            case LEFT:
-                this.x = this.def_x;
-                this.y = -10;
-                this.z = this.def_z;
-                break;
-
-            case RIGHT:
-                this.x = this.def_x;
-                this.y = 10;
-                this.z = this.def_z;
-                break;
-
-            case UP:
-                this.x = this.def_x;
-                this.y = this.def_y;
-                this.z = 10;
-                break;
-
-            case DOWN:
-                this.x = this.def_x;
-                this.y = this.def_y;
-                this.z = -10;
+                //check takeoff achieved
+                if (this.pos.targetedPosition()) this.cmd = Command.WAIT;
                 break;
 
             case WAIT:
