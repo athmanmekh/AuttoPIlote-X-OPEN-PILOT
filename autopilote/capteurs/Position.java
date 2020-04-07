@@ -25,4 +25,12 @@ public class Position extends Capteur {
     public float getDiffY() { return this.getDiff(1); }
     public float getDiffZ() { return this.getDiff(2); }
 
+    public boolean targetedPosition() {
+        boolean res = true;
+        if (this.getData(0) != this.getTarget(0)) res = false;
+        if (this.getData(1) != this.getTarget(1)) res = false;
+        if (this.getData(2) != this.getTarget(2)) res = false;
+        return res;
+    }
+
 }

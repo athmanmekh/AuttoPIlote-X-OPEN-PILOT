@@ -22,8 +22,13 @@ public class AP {
 
     // if no metadata put null
     public void init(Command c, JSONObject capteurs, JSONObject metadata) {
+        this.update(capteurs);
         switch (c) {
             case GOTO:
+                if (metadata == null) {
+                    c = Command.WAIT;
+                    break;
+                }
                 float x = (float) metadata.getDouble("x");
                 float y = (float) metadata.getDouble("y");
                 float z = (float) metadata.getDouble("z");
@@ -33,10 +38,25 @@ public class AP {
                 break;
 
             case JOYSTICK:
-                c = Command.WAIT;
+                if (metadata == null) {
+                    c = Command.WAIT;
+                    break;
+                }
                 this.def_x = (float) metadata.getDouble("x");
                 this.def_y = (float) metadata.getDouble("y");
                 this.def_z = (float) metadata.getDouble("z");
+                break;
+
+            case LAND:
+                this.pos.setTargetX(this.pos.getX());
+                this.pos.setTargetY(this.pos.getY());
+                this.pos.setTargetZ(0);
+                break;
+
+            case TAKEOFF:
+                this.pos.setTargetX(this.pos.getX());
+                this.pos.setTargetY(this.pos.getY());
+                this.pos.setTargetZ(10);
                 break;
 
             default:
@@ -47,7 +67,6 @@ public class AP {
         }
 
         this.cmd = c;
-        this.update(capteurs);
     }
 
     // Mise a jour des données des capteurs
@@ -93,10 +112,7 @@ public class AP {
                 this.y = this.pos.getDiffY();
                 this.z = this.pos.getDiffZ();
 
-                if (this.pos.getX() == this.pos.getTargetX() && this.pos.getY() == this.pos.getTargetY()
-                    && this.pos.getZ() == this.pos.getTargetZ()) {
-                    this.cmd = Command.WAIT;
-                }
+                if (this.pos.targetedPosition()) this.cmd = Command.WAIT;
                 break;
 
             case LAND:
@@ -105,6 +121,7 @@ public class AP {
                 this.z = 1;
 
                 //check land achieved
+                if (this.pos.targetedPosition()) this.cmd = Command.WAIT;
                 break;
 
             case TAKEOFF:
@@ -113,6 +130,7 @@ public class AP {
                 this.z = -1;
 
                 //check takeoff achieved
+                if (this.pos.targetedPosition()) this.cmd = Command.WAIT;
                 break;
 
             case WAIT:
