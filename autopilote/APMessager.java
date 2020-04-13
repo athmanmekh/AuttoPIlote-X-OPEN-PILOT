@@ -63,7 +63,7 @@ public class APMessager extends APUtils {
 
 		try {
 			JSONObject id = new JSONObject();
-			id.put("Type", "autopilote");
+			id.put("Type", "ap");
 			id.put("TTL", 0);
 			System.out.println("IDENTIFICATION: " + id.toString());
 			bus_out.writeBytes(id.toString() + '\n');
@@ -74,14 +74,18 @@ public class APMessager extends APUtils {
 				if (ap.getCommand() == Command.WAIT) {
 
 					// * On récupère toutes les commandes sur le bus
-					JSONArray uc_commands = getBusMSG("UC");
+					JSONArray uc_commands = getBusMSG("uc");
 					// * On met a jour notre liste de commande, si l'id est déjà présent dans notre liste on ignore
 					// sinon on insere (insert sort) la/les commande(s) dans la liste.
 					fillCommands(uc_commands);
 
 					// * On recupere les donnees des capteurs (depuis le bus)
-					JSONArray new_capteurs = getBusMSG("CAPTEURS");
-					if (new_capteurs.length() > 0) fillCapteurs(new_capteurs.getJSONObject(0));
+					JSONArray new_capteurs = getBusMSG("capteur");
+					if (new_capteurs.length() > 0) {
+						String resp = new_capteurs.getString(0);
+						JSONObject sensor = new JSONObject(resp);
+						fillCapteurs(sensor);
+					}
 
 					// * On recupere la premiere commande de la liste
 					JSONObject cmd_obj = getNextCommand();
@@ -89,12 +93,16 @@ public class APMessager extends APUtils {
 					JSONObject meta = cmd_obj.getJSONObject("metadata");
 
 					// * On initialise l'AP
-					ap.init(Command.WAIT, getCapteurs(), null);
+					ap.init(e_cmd, getCapteurs(), meta);
 
 				} else {
 					// * On recupere les donnees des capteurs (depuis le bus)
-					JSONArray new_capteurs = getBusMSG("CAPTEURS");
-					if (new_capteurs.length() > 0) fillCapteurs(new_capteurs.getJSONObject(0));
+					JSONArray new_capteurs = getBusMSG("capteur");
+					if (new_capteurs.length() > 0) {
+						String resp = new_capteurs.getString(0);
+						JSONObject sensor = new JSONObject(resp);
+						fillCapteurs(sensor);
+					}
 
 					// * On update l'AP
 					ap.update(getCapteurs());

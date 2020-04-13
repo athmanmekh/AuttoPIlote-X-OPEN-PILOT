@@ -19,13 +19,10 @@ public class APUtils {
     // "position" : {"x" : float, "y" : float, "z" : float},
     // "contact" : {"f" : float, "b" : float, "l" : float, "r" : float}
     // }
-    private static JSONObject capteurs;
+    private static JSONObject capteurs = new JSONObject();
 
-    public APUtils() {
-        // * initialize with empty atributes
-        commands = new ArrayList<JSONObject>();
-        capteurs = null;
-    }
+    // public APUtils() {
+    // }
 
     private static JSONObject reformatCommand(JSONObject command) {
         JSONObject reformat = new JSONObject();
@@ -51,10 +48,12 @@ public class APUtils {
         if (cmds == null) return;
 
         for (int i=0; i < cmds.length(); i++) {
-            JSONObject obj = cmds.getJSONObject(i);
+            JSONObject obj = new JSONObject(cmds.getString(i));
             obj = reformatCommand(obj);
 
-            if (!commandIsIn(obj)) { // si la commande n'est pas deja dans la liste
+            if (commands.size() == 0) { // ajout de la premiere commande
+                commands.add(obj);
+            } else if (!commandIsIn(obj)) { // si la commande n'est pas deja dans la liste
                 int j = commands.size()-1;
                 while (obj.getInt("id") < commands.get(j).getInt("id")) j--;
                 // on insere la commande dans l'ordre
@@ -81,19 +80,18 @@ public class APUtils {
 
     // reformatte les donnees des capteurs recu, stockant le resultat dans l'attribut capteurs
     public static void fillCapteurs(JSONObject sensors) {
-        if (sensors == null) capteurs = null;
 
-        JSONObject pos = capteurs.getJSONObject("position");
         JSONObject new_pos = sensors.getJSONObject("position");
 
+        JSONObject pos = new JSONObject();
         pos.put("x", new_pos.getDouble("x"));
         pos.put("y", new_pos.getDouble("y"));
         pos.put("z", new_pos.getDouble("z"));
         capteurs.put("position", pos);
 
-        JSONObject contact = capteurs.getJSONObject("contact");
         JSONObject new_contact = sensors.getJSONObject("contact");
 
+        JSONObject contact = new JSONObject();
         contact.put("f", b2d(new_contact.getBoolean("front_contact")));
         contact.put("b", b2d(new_contact.getBoolean("rear_contact")));
         contact.put("l", b2d(new_contact.getBoolean("left_contact")));

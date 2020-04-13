@@ -73,7 +73,7 @@ public class AP {
     public void update(JSONObject capteurs) {
         // Si aucune donnée n'as pu être receptionnée ou n'as été envoyée,
         // le drone repart dans un état d'attente en restant sur place
-        if (capteurs == null) {
+        if (capteurs.length() == 0) {
             this.cmd = Command.WAIT;
             return;
         }
