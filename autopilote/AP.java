@@ -22,6 +22,8 @@ public class AP {
 
     // if no metadata put null
     public void init(Command c, JSONObject capteurs, JSONObject metadata) {
+        if (c != Command.WAIT) System.out.println("INIT : cmd(" + c.getName() + "), sensors(" + capteurs.toString() + "), meta(" + metadata.toString() + ")");
+
         this.update(capteurs);
         switch (c) {
             case GOTO:
@@ -73,6 +75,7 @@ public class AP {
     public void update(JSONObject capteurs) {
         // Si aucune donnée n'as pu être receptionnée ou n'as été envoyée,
         // le drone repart dans un état d'attente en restant sur place
+        if (this.cmd != Command.WAIT) System.out.println("UPDATE : cmd(" + this.cmd.getName() + "), sensors(" + capteurs.toString() + ")");
         if (capteurs.length() == 0) {
             this.cmd = Command.WAIT;
             return;
@@ -103,7 +106,12 @@ public class AP {
 
 	// calcule le tableau diff, ainsi que la puissance des moteurs
     public void compute() {
-    	this.contact.computeDiff();
+        this.contact.computeDiff();
+        if (this.contact.getDiffForward() == 1 || this.contact.getDiffBackward() == 1
+            || this.contact.getDiffLeft() == 1 || this.contact.getDiffRight() == 1) {
+                this.cmd = Command.WAIT;
+        }
+        
     	this.pos.computeDiff();
 
         switch (this.cmd) {

@@ -26,12 +26,33 @@ public class APUtils {
 
     private static JSONObject reformatCommand(JSONObject command) {
         JSONObject reformat = new JSONObject();
-        reformat.put("id", 0);
-        reformat.put("command", "WAIT");
+        reformat.put("id", command.getInt("id"));
 
+        String str_command = "WAIT";
         JSONObject meta = new JSONObject();
-        reformat.put("metadata", meta);
 
+        double xSpd = command.getDouble("xSpeed");
+        double ySpd = command.getDouble("ySpeed");
+        double zSpd = command.getDouble("zSpeed");
+
+        if (command.getBoolean("isNewPosition")) {
+            str_command = "GOTO";
+            meta.put("x", command.getDouble("x"));
+            meta.put("y", command.getDouble("y"));
+            meta.put("z", command.getDouble("z"));
+        } else if (command.getBoolean("toLand")) {
+            str_command = "LAND";
+        } else if (command.getBoolean("toTakeOff")) {
+            str_command = "TAKEOFF";
+        } else if (xSpd != 0 || ySpd != 0 || zSpd != 0) { // JOYSTICK should be ignored if any other variable is set to True
+            str_command = "JOYSTICK";
+            meta.put("x", xSpd);
+            meta.put("y", ySpd);
+            meta.put("z", zSpd);
+        }
+
+        reformat.put("command", str_command);
+        reformat.put("metadata", meta);
         return reformat;
     }
 

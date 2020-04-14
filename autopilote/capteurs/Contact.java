@@ -29,7 +29,7 @@ public class Contact extends Capteur {
     public float getTargetRight() { return this.getTarget(3); }
 
     public float getDiffForward() { return this.getDiff(0); }
-    public float getDiffBackWard() { return this.getDiff(1); }
+    public float getDiffBackward() { return this.getDiff(1); }
     public float getDiffLeft() { return this.getDiff(2); }
     public float getDiffRight() { return this.getDiff(3); }
 

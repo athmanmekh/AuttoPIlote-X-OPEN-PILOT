@@ -17,7 +17,7 @@ public class APMessager extends APUtils {
 	private static void sendBusMSG(JSONObject obj) throws IOException {
 		if (bus.isConnected()) {
 			try {
-				System.out.println("SENDING : " + obj.toString());
+				// System.out.println("SENDING : " + obj.toString());
 				String cmd = "SEND " + obj.toString();
 				bus_out.writeBytes(cmd + '\n');
 			} catch (IOException e) {
@@ -31,14 +31,14 @@ public class APMessager extends APUtils {
 	private static JSONArray getBusMSG(String id) throws IOException {
 		if (bus.isConnected()) {
 			try {
-				System.out.println("GET FROM : " + id);
+				// System.out.println("GET FROM : " + id);
 				String cmd = "GET " + id;
 				bus_out.writeBytes(cmd + '\n');
 
 				String resp = bus_in.readLine();
 				JSONArray arr = new JSONArray(resp);
 
-				System.out.println("RESPONSE : " + arr.toString());
+				// System.out.println("RESPONSE : " + arr.toString());
 				return arr;
 			} catch (IOException e) {
 				System.out.print("Error getting from " + id + ": ");
@@ -70,7 +70,7 @@ public class APMessager extends APUtils {
 			bus_in.readLine(); // {"IdType" : int}, unnecessary for the moment, may be deleted l8er
 
 			while (bus.isConnected()) {
-				System.out.println("\nBUS IS CONNECTED");
+				// System.out.println("\nBUS IS CONNECTED");
 				if (ap.getCommand() == Command.WAIT) {
 
 					// * On récupère toutes les commandes sur le bus
