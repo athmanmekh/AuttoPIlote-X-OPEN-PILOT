@@ -1,0 +1,72 @@
+[
+    {
+        "TITLE": "COMMAND LAND",
+        "QUESTION": {
+            "CAPTEURS": {
+                "position": {
+                    "x": 30,
+                    "y": 15,
+                    "z": 20
+                },
+                "contact": {
+                    "front_contact": false,
+                    "rear_contact": false,
+                    "left_contact": false,
+                    "right_contact": false
+                }
+            },
+            "UC": {
+                "id": 0,
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "isNewPosition": false,
+                "zSpeed": 0,
+                "xSpeed": 0,
+                "ySpeed": 0,
+                "toLand": true,
+                "toTakeOff": false
+            }
+        },
+        "ANSWER": {
+            "xAxis": 0,
+            "yAxis": 0,
+            "zAxis": -1
+        }
+    },
+    {
+        "TITLE": "COMMAND LAND (ALREADY LANDED [z=0])",
+        "QUESTION": {
+            "CAPTEURS": {
+                "position": {
+                    "x": 25,
+                    "y": 10,
+                    "z": 0
+                },
+                "contact": {
+                    "front_contact": false,
+                    "rear_contact": false,
+                    "left_contact": false,
+                    "right_contact": false
+                }
+            },
+            "UC": {
+                "id": 0,
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "isNewPosition": false,
+                "zSpeed": 0,
+                "xSpeed": 0,
+                "ySpeed": 0,
+                "toLand": true,
+                "toTakeOff": false
+            }
+        },
+        "ANSWER": {
+            "xAxis": 0,
+            "yAxis": 0,
+            "zAxis": 0
+        }
+    }
+]
