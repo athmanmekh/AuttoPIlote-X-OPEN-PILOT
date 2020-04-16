@@ -124,7 +124,7 @@ public class AP {
             case LAND:
                 this.x = 0;
                 this.y = 0;
-                this.z = 1;
+                this.z = -1;
 
                 //check land achieved
                 if (this.pos.targetedPosition()) this.cmd = Command.WAIT;
@@ -133,7 +133,7 @@ public class AP {
             case TAKEOFF:
                 this.x = 0;
                 this.y = 0;
-                this.z = -1;
+                this.z = 1;
 
                 //check takeoff achieved
                 if (this.pos.targetedPosition()) this.cmd = Command.WAIT;
