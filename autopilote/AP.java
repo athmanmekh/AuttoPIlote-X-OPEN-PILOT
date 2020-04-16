@@ -107,12 +107,10 @@ public class AP {
 	// calcule le tableau diff, ainsi que la puissance des moteurs
     public void compute() {
         this.contact.computeDiff();
-        if (this.contact.getDiffForward() == 1 || this.contact.getDiffBackward() == 1
-            || this.contact.getDiffLeft() == 1 || this.contact.getDiffRight() == 1) {
-                this.cmd = Command.WAIT;
-        }
-        
-    	this.pos.computeDiff();
+        this.pos.computeDiff();
+
+        // si les capteurs nous indiquent que le dron est en contact, on passe immédiatement en état WAIT;
+        if (this.contact.inContact()) this.cmd = Command.WAIT;
 
         switch (this.cmd) {
             case GOTO:

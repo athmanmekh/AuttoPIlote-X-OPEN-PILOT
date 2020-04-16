@@ -41,4 +41,15 @@ public class Contact extends Capteur {
         }
     }
 
+    public bool inContact() {
+        boolean res = false;
+
+        if (this.getDiffForward() == 1) res = true;
+        if (this.getDiffBackward() == 1) res = true;
+        if (this.getDiffLeft() == 1) res = true;
+        if (this.getDiffRight() == 1) res = true;
+
+        return res;
+    }
+
 }
