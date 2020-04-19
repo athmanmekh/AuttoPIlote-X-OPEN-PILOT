@@ -41,7 +41,7 @@ public class Contact extends Capteur {
         }
     }
 
-    public bool inContact() {
+    public boolean inContact() {
         boolean res = false;
 
         if (this.getDiffForward() == 1) res = true;

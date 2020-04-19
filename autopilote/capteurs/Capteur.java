@@ -31,8 +31,20 @@ public class Capteur {
 	public float getDiff(int i) { return this.diff[i]; }
 
 	public void computeDiff() {
-		for (int i = 0; i < this.length; i++)
-			this.diff[i] = this.target[i] - this.data[i];
+		for (int i = 0; i < this.length; i++) {
+			float i_diff = this.target[i] - this.data[i];
+			i_diff = (i_diff < -1) ? -1 : i_diff;
+			i_diff = (i_diff > 1) ? 1 : i_diff;
+			this.diff[i] = i_diff;
+		}
+	}
+
+	public void reset() {
+		for (int i=0; i < this.length; i++) {
+			this.data[i] = 0;
+			this.target[i] = 0;
+			this.diff[i] = 0;
+		}
 	}
 
 }
