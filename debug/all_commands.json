@@ -1,0 +1,702 @@
+[
+    {
+        "TITLE": "COMMAND GOTO (SAME POSITION)",
+        "QUESTION": {
+            "CAPTEURS": {
+                "position": {
+                    "x": 1,
+                    "y": 2,
+                    "z": 3
+                },
+                "contact": {
+                    "front_contact": false,
+                    "rear_contact": false,
+                    "left_contact": false,
+                    "right_contact": false
+                }
+            },
+            "UC": {
+                "id": 0,
+                "x": 1,
+                "y": 2,
+                "z": 3,
+                "isNewPosition": true,
+                "zSpeed": 0,
+                "xSpeed": 0,
+                "ySpeed": 0,
+                "toLand": false,
+                "toTakeOff": false
+            }
+        },
+        "ANSWER": {
+            "xAxis": 0,
+            "yAxis": 0,
+            "zAxis": 0
+        }
+    },
+    {
+        "TITLE": "COMMAND GOTO (X AXIS +)",
+        "QUESTION": {
+            "CAPTEURS": {
+                "position": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                },
+                "contact": {
+                    "front_contact": false,
+                    "rear_contact": false,
+                    "left_contact": false,
+                    "right_contact": false
+                }
+            },
+            "UC": {
+                "id": 0,
+                "x": 1,
+                "y": 0,
+                "z": 0,
+                "isNewPosition": true,
+                "zSpeed": 0,
+                "xSpeed": 0,
+                "ySpeed": 0,
+                "toLand": false,
+                "toTakeOff": false
+            }
+        },
+        "ANSWER": {
+            "xAxis": 1,
+            "yAxis": 0,
+            "zAxis": 0
+        }
+    },
+    {
+        "TITLE": "COMMAND GOTO (X AXIS -)",
+        "QUESTION": {
+            "CAPTEURS": {
+                "position": {
+                    "x": 1,
+                    "y": 0,
+                    "z": 0
+                },
+                "contact": {
+                    "front_contact": false,
+                    "rear_contact": false,
+                    "left_contact": false,
+                    "right_contact": false
+                }
+            },
+            "UC": {
+                "id": 0,
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "isNewPosition": true,
+                "zSpeed": 0,
+                "xSpeed": 0,
+                "ySpeed": 0,
+                "toLand": false,
+                "toTakeOff": false
+            }
+        },
+        "ANSWER": {
+            "xAxis": -1,
+            "yAxis": 0,
+            "zAxis": 0
+        }
+    },
+    {
+        "TITLE": "COMMAND GOTO (Y AXIS +)",
+        "QUESTION": {
+            "CAPTEURS": {
+                "position": {
+                    "x": 0,
+                    "y": 1,
+                    "z": 0
+                },
+                "contact": {
+                    "front_contact": false,
+                    "rear_contact": false,
+                    "left_contact": false,
+                    "right_contact": false
+                }
+            },
+            "UC": {
+                "id": 0,
+                "x": 0,
+                "y": 2,
+                "z": 0,
+                "isNewPosition": true,
+                "zSpeed": 0,
+                "xSpeed": 0,
+                "ySpeed": 0,
+                "toLand": false,
+                "toTakeOff": false
+            }
+        },
+        "ANSWER": {
+            "xAxis": 0,
+            "yAxis": 1,
+            "zAxis": 0
+        }
+    },
+    {
+        "TITLE": "COMMAND GOTO (Y AXIS -)",
+        "QUESTION": {
+            "CAPTEURS": {
+                "position": {
+                    "x": 0,
+                    "y": 1,
+                    "z": 0
+                },
+                "contact": {
+                    "front_contact": false,
+                    "rear_contact": false,
+                    "left_contact": false,
+                    "right_contact": false
+                }
+            },
+            "UC": {
+                "id": 0,
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "isNewPosition": true,
+                "zSpeed": 0,
+                "xSpeed": 0,
+                "ySpeed": 0,
+                "toLand": false,
+                "toTakeOff": false
+            }
+        },
+        "ANSWER": {
+            "xAxis": 0,
+            "yAxis": -1,
+            "zAxis": 0
+        }
+    },
+    {
+        "TITLE": "COMMAND GOTO (Z AXIS +)",
+        "QUESTION": {
+            "CAPTEURS": {
+                "position": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 1
+                },
+                "contact": {
+                    "front_contact": false,
+                    "rear_contact": false,
+                    "left_contact": false,
+                    "right_contact": false
+                }
+            },
+            "UC": {
+                "id": 0,
+                "x": 0,
+                "y": 0,
+                "z": 2,
+                "isNewPosition": true,
+                "zSpeed": 0,
+                "xSpeed": 0,
+                "ySpeed": 0,
+                "toLand": false,
+                "toTakeOff": false
+            }
+        },
+        "ANSWER": {
+            "xAxis": 0,
+            "yAxis": 0,
+            "zAxis": 1
+        }
+    },
+    {
+        "TITLE": "COMMAND GOTO (Z AXIS -)",
+        "QUESTION": {
+            "CAPTEURS": {
+                "position": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 1
+                },
+                "contact": {
+                    "front_contact": false,
+                    "rear_contact": false,
+                    "left_contact": false,
+                    "right_contact": false
+                }
+            },
+            "UC": {
+                "id": 0,
+                "x": 0,
+                "y": 0,
+                "z": 2,
+                "isNewPosition": true,
+                "zSpeed": 0,
+                "xSpeed": 0,
+                "ySpeed": 0,
+                "toLand": false,
+                "toTakeOff": false
+            }
+        },
+        "ANSWER": {
+            "xAxis": 0,
+            "yAxis": 0,
+            "zAxis": -1
+        }
+    },
+    {
+        "TITLE": "COMMAND GOTO (CONTACT)",
+        "QUESTION": {
+            "CAPTEURS": {
+                "position": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                },
+                "contact": {
+                    "front_contact": true,
+                    "rear_contact": true,
+                    "left_contact": true,
+                    "right_contact": true
+                }
+            },
+            "UC": {
+                "id": 0,
+                "x": 1,
+                "y": 2,
+                "z": 3,
+                "isNewPosition": true,
+                "zSpeed": 0,
+                "xSpeed": 0,
+                "ySpeed": 0,
+                "toLand": false,
+                "toTakeOff": false
+            }
+        },
+        "ANSWER": {
+            "xAxis": 0,
+            "yAxis": 0,
+            "zAxis": 0
+        }
+    },
+    {
+        "TITLE": "COMMAND GOTO (JOYSTICK)",
+        "QUESTION": {
+            "CAPTEURS": {
+                "position": {
+                    "x": 1,
+                    "y": 2,
+                    "z": 3
+                },
+                "contact": {
+                    "front_contact": false,
+                    "rear_contact": false,
+                    "left_contact": false,
+                    "right_contact": false
+                }
+            },
+            "UC": {
+                "id": 0,
+                "x": 0,
+                "y": 3,
+                "z": 2,
+                "isNewPosition": true,
+                "zSpeed": 1,
+                "xSpeed": -1,
+                "ySpeed": 0.3,
+                "toLand": false,
+                "toTakeOff": false
+            }
+        },
+        "ANSWER": {
+            "xAxis": -1,
+            "yAxis": 1,
+            "zAxis": -1
+        }
+    },
+    {
+        "TITLE": "COMMAND TAKEOFF",
+        "QUESTION": {
+            "CAPTEURS": {
+                "position": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                },
+                "contact": {
+                    "front_contact": false,
+                    "rear_contact": false,
+                    "left_contact": false,
+                    "right_contact": false
+                }
+            },
+            "UC": {
+                "id": 0,
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "isNewPosition": false,
+                "zSpeed": 0,
+                "xSpeed": 0,
+                "ySpeed": 0,
+                "toLand": false,
+                "toTakeOff": true
+            }
+        },
+        "ANSWER": {
+            "xAxis": 0,
+            "yAxis": 0,
+            "zAxis": 1
+        }
+    },
+    {
+        "TITLE": "COMMAND TAKEOFF (ALREADY IN AIR)",
+        "QUESTION": {
+            "CAPTEURS": {
+                "position": {
+                    "x": 14,
+                    "y": 18,
+                    "z": 20
+                },
+                "contact": {
+                    "front_contact": false,
+                    "rear_contact": false,
+                    "left_contact": false,
+                    "right_contact": false
+                }
+            },
+            "UC": {
+                "id": 0,
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "isNewPosition": false,
+                "zSpeed": 0,
+                "xSpeed": 0,
+                "ySpeed": 0,
+                "toLand": false,
+                "toTakeOff": true
+            }
+        },
+        "ANSWER": {
+            "xAxis": 0,
+            "yAxis": 0,
+            "zAxis": 1
+        }
+    },
+    {
+        "TITLE": "COMMAND TAKEOFF (CONTACT)",
+        "QUESTION": {
+            "CAPTEURS": {
+                "position": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                },
+                "contact": {
+                    "front_contact": true,
+                    "rear_contact": true,
+                    "left_contact": true,
+                    "right_contact": true
+                }
+            },
+            "UC": {
+                "id": 0,
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "isNewPosition": false,
+                "zSpeed": 0,
+                "xSpeed": 0,
+                "ySpeed": 0,
+                "toLand": false,
+                "toTakeOff": true
+            }
+        },
+        "ANSWER": {
+            "xAxis": 0,
+            "yAxis": 0,
+            "zAxis": 0
+        }
+    },
+    {
+        "TITLE": "COMMAND TAKEOFF (JOYSTICK)",
+        "QUESTION": {
+            "CAPTEURS": {
+                "position": {
+                    "x": 25,
+                    "y": 10,
+                    "z": 0
+                },
+                "contact": {
+                    "front_contact": false,
+                    "rear_contact": false,
+                    "left_contact": false,
+                    "right_contact": false
+                }
+            },
+            "UC": {
+                "id": 0,
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "isNewPosition": false,
+                "xSpeed": 0.5,
+                "ySpeed": 0.5,
+                "zSpeed": 0.5,
+                "toLand": false,
+                "toTakeOff": true
+            }
+        },
+        "ANSWER": {
+            "xAxis": 0,
+            "yAxis": 0,
+            "zAxis": 1
+        }
+    },
+    {
+        "TITLE": "COMMAND LAND",
+        "QUESTION": {
+            "CAPTEURS": {
+                "position": {
+                    "x": 30,
+                    "y": 15,
+                    "z": 20
+                },
+                "contact": {
+                    "front_contact": false,
+                    "rear_contact": false,
+                    "left_contact": false,
+                    "right_contact": false
+                }
+            },
+            "UC": {
+                "id": 0,
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "isNewPosition": false,
+                "zSpeed": 0,
+                "xSpeed": 0,
+                "ySpeed": 0,
+                "toLand": true,
+                "toTakeOff": false
+            }
+        },
+        "ANSWER": {
+            "xAxis": 0,
+            "yAxis": 0,
+            "zAxis": -1
+        }
+    },
+    {
+        "TITLE": "COMMAND LAND (ALREADY LANDED [z=0])",
+        "QUESTION": {
+            "CAPTEURS": {
+                "position": {
+                    "x": 25,
+                    "y": 10,
+                    "z": 0
+                },
+                "contact": {
+                    "front_contact": false,
+                    "rear_contact": false,
+                    "left_contact": false,
+                    "right_contact": false
+                }
+            },
+            "UC": {
+                "id": 0,
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "isNewPosition": false,
+                "zSpeed": 0,
+                "xSpeed": 0,
+                "ySpeed": 0,
+                "toLand": true,
+                "toTakeOff": false
+            }
+        },
+        "ANSWER": {
+            "xAxis": 0,
+            "yAxis": 0,
+            "zAxis": 0
+        }
+    },
+    {
+        "TITLE": "COMMAND LAND (CONTACT)",
+        "QUESTION": {
+            "CAPTEURS": {
+                "position": {
+                    "x": 25,
+                    "y": 10,
+                    "z": 10
+                },
+                "contact": {
+                    "front_contact": true,
+                    "rear_contact": true,
+                    "left_contact": false,
+                    "right_contact": false
+                }
+            },
+            "UC": {
+                "id": 0,
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "isNewPosition": false,
+                "xSpeed": 0.5,
+                "ySpeed": 0.5,
+                "zSpeed": 0.5,
+                "toLand": true,
+                "toTakeOff": false
+            }
+        },
+        "ANSWER": {
+            "xAxis": 0,
+            "yAxis": 0,
+            "zAxis": 0
+        }
+    },
+    {
+        "TITLE": "COMMAND LAND (JOYSTICK)",
+        "QUESTION": {
+            "CAPTEURS": {
+                "position": {
+                    "x": 25,
+                    "y": 10,
+                    "z": 10
+                },
+                "contact": {
+                    "front_contact": false,
+                    "rear_contact": false,
+                    "left_contact": false,
+                    "right_contact": false
+                }
+            },
+            "UC": {
+                "id": 0,
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "isNewPosition": false,
+                "xSpeed": 0.5,
+                "ySpeed": 0.5,
+                "zSpeed": 0.5,
+                "toLand": true,
+                "toTakeOff": false
+            }
+        },
+        "ANSWER": {
+            "xAxis": 0,
+            "yAxis": 0,
+            "zAxis": -1
+        }
+    },
+    {
+        "TITLE": "COMMAND JOYSTICK",
+        "QUESTION": {
+            "CAPTEURS": {
+                "position": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 10
+                },
+                "contact": {
+                    "front_contact": false,
+                    "rear_contact": false,
+                    "left_contact": false,
+                    "right_contact": false
+                }
+            },
+            "UC": {
+                "id": 0,
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "isNewPosition": false,
+                "xSpeed": 0.4,
+                "ySpeed": -1,
+                "zSpeed": 0.5,
+                "toLand": false,
+                "toTakeOff": false
+            }
+        },
+        "ANSWER": {
+            "xAxis": 0.4,
+            "yAxis": -1,
+            "zAxis": 0.5
+        }
+    },
+    {
+        "TITLE": "COMMAND JOYSTICK",
+        "QUESTION": {
+            "CAPTEURS": {
+                "position": {
+                    "x": 14,
+                    "y": 18,
+                    "z": 20
+                },
+                "contact": {
+                    "front_contact": false,
+                    "rear_contact": false,
+                    "left_contact": false,
+                    "right_contact": false
+                }
+            },
+            "UC": {
+                "id": 0,
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "isNewPosition": false,
+                "xSpeed": 0.7,
+                "ySpeed": -0.5,
+                "zSpeed": 1,
+                "toLand": false,
+                "toTakeOff": false
+            }
+        },
+        "ANSWER": {
+            "xAxis": 0.7,
+            "yAxis": -0.5,
+            "zAxis": 1
+        }
+    },
+    {
+        "TITLE": "COMMAND JOYSTICK (CONTACT)",
+        "QUESTION": {
+            "CAPTEURS": {
+                "position": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                },
+                "contact": {
+                    "front_contact": true,
+                    "rear_contact": true,
+                    "left_contact": true,
+                    "right_contact": true
+                }
+            },
+            "UC": {
+                "id": 0,
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "isNewPosition": false,
+                "xSpeed": 0.5,
+                "ySpeed": 0.5,
+                "zSpeed": 0.5,
+                "toLand": false,
+                "toTakeOff": true
+            }
+        },
+        "ANSWER": {
+            "xAxis": 0,
+            "yAxis": 0,
+            "zAxis": 0
+        }
+    }
+]
