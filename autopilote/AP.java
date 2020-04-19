@@ -18,11 +18,15 @@ public class AP {
         this.def_z = 0;
     }
 
-    public Command getCommand() { return this.cmd; } // if Command("NONE") is returned then the AP is WAITING for a command
+    public Command getCommand() { return this.cmd; }
 
     // if no metadata put null
     public void init(Command c, JSONObject capteurs, JSONObject metadata) {
-        if (c != Command.WAIT) System.out.println("INIT : cmd(" + c.getName() + "), sensors(" + capteurs.toString() + "), meta(" + metadata.toString() + ")");
+        this.pos.reset();
+        this.contact.reset();
+
+        this.def_x = 0; this.def_y = 0; this.def_z = 0;
+        this.x = 0; this.y = 0; this.z = 0;
 
         this.update(capteurs);
         switch (c) {
@@ -75,9 +79,11 @@ public class AP {
     public void update(JSONObject capteurs) {
         // Si aucune donnée n'as pu être receptionnée ou n'as été envoyée,
         // le drone repart dans un état d'attente en restant sur place
-        if (this.cmd != Command.WAIT) System.out.println("UPDATE : cmd(" + this.cmd.getName() + "), sensors(" + capteurs.toString() + ")");
         if (capteurs.length() == 0) {
             this.cmd = Command.WAIT;
+            this.def_x = 0;
+            this.def_y = 0;
+            this.def_z = 0;
             return;
         }
 
@@ -106,37 +112,36 @@ public class AP {
 
 	// calcule le tableau diff, ainsi que la puissance des moteurs
     public void compute() {
+        // this.x = 0; this.y = 0; this.z = 0; // reset motors
+
         this.contact.computeDiff();
         this.pos.computeDiff();
 
         // si les capteurs nous indiquent que le dron est en contact, on passe immédiatement en état WAIT;
-        if (this.contact.inContact()) this.cmd = Command.WAIT;
+        if (this.contact.inContact()) {
+            this.cmd = Command.WAIT;
+            this.def_x = 0;
+            this.def_y = 0;
+            this.def_z = 0;
+        }
 
         switch (this.cmd) {
             case GOTO:
                 this.x = this.pos.getDiffX();
                 this.y = this.pos.getDiffY();
                 this.z = this.pos.getDiffZ();
-
-                if (this.pos.targetedPosition()) this.cmd = Command.WAIT;
                 break;
 
             case LAND:
                 this.x = 0;
                 this.y = 0;
                 this.z = -1;
-
-                //check land achieved
-                if (this.pos.targetedPosition()) this.cmd = Command.WAIT;
                 break;
 
             case TAKEOFF:
                 this.x = 0;
                 this.y = 0;
                 this.z = 1;
-
-                //check takeoff achieved
-                if (this.pos.targetedPosition()) this.cmd = Command.WAIT;
                 break;
 
             case WAIT:
@@ -145,9 +150,15 @@ public class AP {
                 this.z = this.def_z;
                 break;
         }
+
+        //check land, takeoff or goto achieved
+        if (this.pos.targetedPosition()) this.cmd = Command.WAIT;
     }
 
     public JSONObject createInstruction() {
+        // System.out.println("CMD : " + this.cmd.getName());
+        // System.out.println("SENDING (x:" + this.x + ",y:" + this.y + ",z:" + this.z + ")");
+
         JSONObject ins = new JSONObject();
         ins.put("xAxis", this.x);
         ins.put("yAxis", this.y);

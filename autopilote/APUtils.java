@@ -14,15 +14,13 @@ public class APUtils {
     // }
     // }, ... ]
     private static ArrayList<JSONObject> commands = new ArrayList<JSONObject>();
+    private static ArrayList<JSONObject> treated = new ArrayList<JSONObject>();
 
     // {
     // "position" : {"x" : float, "y" : float, "z" : float},
     // "contact" : {"f" : float, "b" : float, "l" : float, "r" : float}
     // }
     private static JSONObject capteurs = new JSONObject();
-
-    // public APUtils() {
-    // }
 
     private static JSONObject reformatCommand(JSONObject command) {
         JSONObject reformat = new JSONObject();
@@ -53,6 +51,7 @@ public class APUtils {
 
         reformat.put("command", str_command);
         reformat.put("metadata", meta);
+        // System.out.println("REFORMAT : " + reformat.toString());
         return reformat;
     }
 
@@ -64,29 +63,43 @@ public class APUtils {
         return false;
     }
 
+    // Renvoit true si l'objet json à deja été traité
+    private static boolean commandTreated(JSONObject obj) {
+        for (int i=0; i < treated.size(); i++) {
+            JSONObject t = treated.get(i);
+            if (t.getInt("id") == obj.getInt("id")) {
+                if (t.getString("command") == obj.getString("command")) return true;
+            }
+        }
+        return false;
+    }
+
     // met a jour la liste de commande actuelle avec celle recu en parametre
     public static void fillCommands(JSONArray cmds) {
         if (cmds == null) return;
 
         for (int i=0; i < cmds.length(); i++) {
             JSONObject obj = new JSONObject(cmds.getString(i));
-            obj = reformatCommand(obj);
-
-            if (commands.size() == 0) { // ajout de la premiere commande
-                commands.add(obj);
-            } else if (!commandIsIn(obj)) { // si la commande n'est pas deja dans la liste
-                int j = commands.size()-1;
-                while (obj.getInt("id") < commands.get(j).getInt("id")) j--;
-                // on insere la commande dans l'ordre
-                commands.add(j, obj);
+            if (obj.length() > 0) {
+                obj = reformatCommand(obj);
+                if (commands.size() == 0) { // ajout de la premiere commande
+                    commands.add(obj);
+                } else if (!commandIsIn(obj) && !commandTreated(obj)) { // si la commande n'est pas deja dans la liste
+                    int j = commands.size()-1;
+                    while (obj.getInt("id") < commands.get(j).getInt("id")) j--;
+                    // on insere la commande dans l'ordre
+                    commands.add(j, obj);
+                }
             }
         }
+        // System.out.println("COMMANDS LENGTH : " + commands.size());
     }
 
     public static JSONObject getNextCommand() {
         JSONObject res;
         if (commands.size() > 0) {
             res = commands.get(0);
+            treated.add(res);
             commands.remove(0);
         } else {
             res = new JSONObject();
